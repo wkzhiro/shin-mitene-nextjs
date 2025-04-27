@@ -25,10 +25,10 @@ export default async function EditPage({ params }: { params: { id: string } }) {
       const postData = await postRes.json();
       console.log("postData:", postData);
       title = postData.title || "";
-      summary = postData.summary || "";
-      editorState = postData.editorState || editorState;
-      selectedCategories = postData.categories?.map((cat: { category_id: number }) => cat.category_id) || [];
-      selectedTags = postData.tags?.map((tag: { tag_id: number }) => tag.tag_id) || [];
+      summary = postData.intro || "";
+      editorState = postData.content || editorState;
+      selectedCategories = postData.categories?.map((cat: { category_id: { id: number } }) => cat.category_id?.id) || [];
+      selectedTags = postData.tags?.map((tag: { tag_id: { id: number } }) => tag.tag_id?.id) || [];
     } else {
       console.warn("投稿情報が取得できませんでした。空の値を利用します。");
     }

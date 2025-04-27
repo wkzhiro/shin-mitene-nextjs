@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { supabase } from "@/app/lib/supabase";
 import Link from "next/link";
 import { nodes } from "@/app/components/editor/nodes";
@@ -88,6 +88,22 @@ export default function PostDetailClient() {
     }
     fetchPost();
   }, [postid, session]);
+
+  // 閲覧履歴を記録
+  const pageViewSentRef = useRef(false);
+  useEffect(() => {
+    if (!postid || !userId) return;
+    if (pageViewSentRef.current) return;
+    pageViewSentRef.current = true;
+    fetch("/api/page-view", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ postId: postid, userId }),
+    }).catch((err) => {
+      // エラーは特に何もしない
+      console.error("Failed to record page view:", err);
+    });
+  }, [postid, userId]);
 
   // コメント一覧の取得
   useEffect(() => {

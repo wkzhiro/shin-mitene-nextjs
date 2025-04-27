@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import Link from "next/link";
-import PostList from "@/app/components/list/PostList";
+import MyPagePostList from "@/app/components/list/MyPagePostList";
 import { TabType, MyPagePost } from "@/app/types/mypage.types";
 import { Post as RealPost } from "@/app/types/post";
 
@@ -186,7 +186,7 @@ export default function MyPage() {
   console.log("mypage posts mapped:", posts.map(mapMyPagePostToPost));
   return (
     <div className="bg-[#f7f7f7] min-h-screen py-8">
-      <div className="max-w-6xl mx-auto flex gap-8">
+      <div className="max-w-[1440px] mx-auto flex gap-8">
         {/* サイドバー */}
         <aside className="w-80 bg-white rounded-xl shadow px-8 py-10 flex flex-col items-center">
           <div className="w-28 h-28 rounded-full bg-gray-200 overflow-hidden mb-4 border border-gray-300">
@@ -258,7 +258,7 @@ export default function MyPage() {
             <div className="text-xs text-gray-400 mb-2">
               投稿件数: {posts.length}
             </div>
-            <PostList
+            <MyPagePostList
               posts={posts.map(mapMyPagePostToPost)}
               userInfoMap={userInfoMap}
               showUser={true}

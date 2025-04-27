@@ -155,7 +155,7 @@ export async function fetchPostsExternal({
         if (ids.length > 0) {
           const { data: postsWithExtra } = await supabase
             .from("posts")
-            .select("id, created_at, post_tags(tag:tags(id, name))")
+            .select("id, created_at, view_count, like_count, post_tags(tag:tags(id, name))")
             .in("id", ids);
 
           if (!postsWithExtra || postsWithExtra.length === 0) {
@@ -194,6 +194,23 @@ export async function fetchPostsExternal({
               countMap[b.post_id] = (countMap[b.post_id] || 0) + 1;
             });
           }
+
+          // post_viewsからpost_idごとの閲覧数を取得
+          let viewCountMap: Record<string, number> = {};
+          if (ids.length > 0) {
+            const { data: viewCountsData, error: viewCountsError } = await supabase
+              .from("post_views")
+              .select("post_id")
+              .in("post_id", ids);
+            if (!viewCountsError && viewCountsData) {
+              // post_idごとに件数をカウント
+              viewCountsData.forEach((v: any) => {
+                const pid = v.post_id;
+                viewCountMap[pid] = (viewCountMap[pid] || 0) + 1;
+              });
+            }
+          }
+
           searchResult.results = searchResult.results.map((p) => {
             const extra = extraMap[String(p.id)];
             let createdAt = extra?.created_at;
@@ -216,11 +233,16 @@ export async function fetchPostsExternal({
                 )
                 .filter((tag): tag is { tag_id: { id: number; name: string } } => !!tag);
             }
+            // like_countはsupabaseから、view_countはpost_viewsの件数を優先
+            const viewCount = viewCountMap[p.id] ?? extra?.view_count ?? p.view_count;
+            const likeCount = extra?.like_count ?? p.like_count;
             return {
               ...p,
               created_at: createdAt,
               tags,
               bookmark_count: countMap[p.id] || 0,
+              view_count: viewCount,
+              like_count: likeCount,
             };
           });
         }
