@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
     like_count: p.like_count || 0,
     created_at: p.created_at || "",
     is_bookmarked: false,
+    is_liked: false,
   }));
   return NextResponse.json({ posts });
 }
