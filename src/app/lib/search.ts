@@ -16,7 +16,7 @@ export async function searchAzure(q: string) {
     throw new Error("Azure Searchの環境変数が未設定です");
   }
 
-  const apiRouteBase = process.env.API_ROUTE_BASE || "http://localhost:3000";
+  const apiRouteBase = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const res = await fetch(`${apiRouteBase}/api/search-azure`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -145,7 +145,7 @@ export async function indexToAIsearch(post: Post) {
     updated_at: post.updated_at ? new Date(post.updated_at).toISOString() : undefined,
   };
   // API Route Baseは関数内で定義する必要がある（スコープエラー修正）
-  const apiRouteBase2 = process.env.API_ROUTE_BASE || "http://localhost:3000";
+  const apiRouteBase2 = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const blogRes = await fetch(
     `${apiRouteBase2}/api/search-azure`,
     {
@@ -192,7 +192,7 @@ export async function indexToAIsearch(post: Post) {
       return doc;
     })
   );
-  const apiRouteBase3 = process.env.API_ROUTE_BASE || "http://localhost:3000";
+  const apiRouteBase3 = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const ragRes = await fetch(
     `${apiRouteBase3}/api/search-azure`,
     {

@@ -110,7 +110,12 @@ if (Array.isArray(tagIds) && tagIds.length > 0) {
   }
 }
 console.log("tags for AI Search:", tags);
-const newPostWithTags = { ...newPost, tags };
+const newPostWithTags = { 
+  ...newPost, 
+  tags,
+  is_liked: false,         // 新規投稿時は必ずfalse
+  is_bookmarked: false     // 新規投稿時は必ずfalse
+};
 
 // AI Searchへインデックス登録
 let aiSearchStatus = "success";
@@ -119,7 +124,7 @@ let attempts = 1;
 let next_retry_at = null;
 try {
   // /api/search-azure へ直接POST
-  const apiRouteBase = process.env.API_ROUTE_BASE || "http://localhost:3000";
+  const apiRouteBase = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const res = await fetch(`${apiRouteBase}/api/search-azure`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -140,7 +145,7 @@ try {
     .update({ status: "success", attempts, next_retry_at: null, last_error: null })
     .eq("post_id", postId);
 
-  return NextResponse.json({ post: newPost, aiSearchStatus, aiSearchError, aiResult });
+  return NextResponse.json({ post: newPostWithTags, aiSearchStatus, aiSearchError, aiResult });
 } catch (err: any) {
   aiSearchStatus = "failed";
   aiSearchError = err?.message || "AI Search indexing error";
@@ -157,7 +162,7 @@ try {
     })
     .eq("post_id", postId);
 
-  return NextResponse.json({ post: newPost, aiSearchStatus, aiSearchError });
+  return NextResponse.json({ post: newPostWithTags, aiSearchStatus, aiSearchError });
 }
 }
 

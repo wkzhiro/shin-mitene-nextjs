@@ -94,7 +94,7 @@ export default function Editor({
     const editorStateJSON = editorState.toJSON();
     const jsonString = JSON.stringify(editorStateJSON);
     setBodyState(jsonString);
-    console.log("本文の状態:", jsonString);
+    // console.log("本文の状態:", jsonString);
   };
 
   // カテゴリー選択の change ハンドラー
@@ -279,7 +279,7 @@ export default function Editor({
         </button>
       </div>
 
-      {/* 入力内容の確認用表示 */}
+      {/* 入力内容の確認用表示
       <div className="mt-16 p-4 border rounded">
         <h3 className="font-bold mb-2">入力内容の確認</h3>
         <p>
@@ -309,7 +309,7 @@ export default function Editor({
               : bodyState}
           </pre>
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }

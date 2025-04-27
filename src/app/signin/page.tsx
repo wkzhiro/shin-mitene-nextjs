@@ -31,7 +31,7 @@ export default function SignInPage() {
         <h1 className="text-3xl font-bold mb-4">サインインしてください</h1>
         <p className="mb-6">Azure Entra ID アカウントでサインインできます</p>
         <button
-        onClick={() => signIn("azure-ad", { callbackUrl: "/" })}
+        onClick={() => signIn("azure-ad", { callbackUrl: "/list" })}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
         サインイン

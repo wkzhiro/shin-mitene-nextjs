@@ -320,7 +320,7 @@ console.log("tags", tags);
                 className="rounded-lg w-full h-auto"
               /> */}
             </div>
-            <div className="text-gray-500 text-sm flex space-x-4 mb-4">
+            {/* <div className="text-gray-500 text-sm flex space-x-4 mb-4">
               <strong>Categories:</strong>
               {categories.map((category: any, idx: number) =>
                 typeof category === "string" ? (
@@ -329,7 +329,7 @@ console.log("tags", tags);
                   <span key={category.id || idx} className="bg-gray-100 px-2 py-1 rounded-lg">{category.name}</span>
                 )
               )}
-            </div>
+            </div> */}
             {/* 日付表示 */}
             <div className="flex gap-6 text-xs text-gray-500 mt-4">
               <div>
