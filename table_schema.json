@@ -1,0 +1,387 @@
+[
+  {
+    "table_name": "bookmark",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "bookmark",
+    "column_name": "post_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "bookmark",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "bookmark",
+    "column_name": "bookmarked_at",
+    "data_type": "timestamp without time zone",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "bookmark",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "categories",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "categories",
+    "column_name": "name",
+    "data_type": "character varying",
+    "character_maximum_length": 100,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "comments",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "comments",
+    "column_name": "post_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "comments",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "comments",
+    "column_name": "content",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "comments",
+    "column_name": "created_at",
+    "data_type": "timestamp without time zone",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "index_queue",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "index_queue",
+    "column_name": "post_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "index_queue",
+    "column_name": "status",
+    "data_type": "character varying",
+    "character_maximum_length": 16,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "index_queue",
+    "column_name": "attempts",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "index_queue",
+    "column_name": "next_retry_at",
+    "data_type": "timestamp with time zone",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "index_queue",
+    "column_name": "last_error",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "index_queue",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "index_queue",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_categories",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_categories",
+    "column_name": "post_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "post_categories",
+    "column_name": "category_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "post_likes",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_likes",
+    "column_name": "post_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_likes",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_likes",
+    "column_name": "liked_at",
+    "data_type": "timestamp without time zone",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "post_likes",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "post_tags",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_tags",
+    "column_name": "post_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "post_tags",
+    "column_name": "tag_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "post_views",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_views",
+    "column_name": "post_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_views",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "post_views",
+    "column_name": "viewed_at",
+    "data_type": "timestamp without time zone",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "title",
+    "data_type": "character varying",
+    "character_maximum_length": 255,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "intro",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "content",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "cover_image_url",
+    "data_type": "character varying",
+    "character_maximum_length": 255,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "created_at",
+    "data_type": "timestamp without time zone",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "updated_at",
+    "data_type": "timestamp without time zone",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "view_count",
+    "data_type": "bigint",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "posts",
+    "column_name": "like_count",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "tags",
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "tags",
+    "column_name": "name",
+    "data_type": "character varying",
+    "character_maximum_length": 100,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "users",
+    "column_name": "id",
+    "data_type": "uuid",
+    "character_maximum_length": null,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "users",
+    "column_name": "azure_id",
+    "data_type": "uuid",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "users",
+    "column_name": "username",
+    "data_type": "character varying",
+    "character_maximum_length": 50,
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "users",
+    "column_name": "email",
+    "data_type": "character varying",
+    "character_maximum_length": 100,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "users",
+    "column_name": "avatar_url",
+    "data_type": "character varying",
+    "character_maximum_length": 255,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "users",
+    "column_name": "created_at",
+    "data_type": "timestamp without time zone",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "users",
+    "column_name": "description",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "users",
+    "column_name": "role",
+    "data_type": "boolean",
+    "character_maximum_length": null,
+    "is_nullable": "YES"
+  }
+]
