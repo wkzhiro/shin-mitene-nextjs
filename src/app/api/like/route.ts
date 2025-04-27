@@ -5,7 +5,7 @@ import { supabase } from "@/app/lib/supabase";
 // POST メソッドの処理
 export async function POST(req: NextRequest) {
   try {
-    const { postId, userId } = await req.json();
+    const { postId, userId, checkOnly } = await req.json();
 
     // ユーザーIDがない場合はエラー
     if (!userId) {
@@ -25,6 +25,15 @@ export async function POST(req: NextRequest) {
 
     if (fetchError && fetchError.code !== "PGRST116") {
       throw fetchError;
+    }
+
+    // checkOnly: true の場合は状態だけ返す（insert/updateしない）
+    if (checkOnly) {
+      return NextResponse.json({
+        success: true,
+        liked: !!(existingLike && existingLike.is_active),
+        message: "like状態のみ返却",
+      });
     }
 
     // 更新 or 作成の分岐
