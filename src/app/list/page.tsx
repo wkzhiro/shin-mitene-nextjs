@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { jwtDecode } from "jwt-decode";
+import { Suspense } from "react";
 import { Post, Tag, Category, RawPost, FacetsResult, SearchResult } from "@/app/types/list.types";
 
 import { supabase } from "@/app/lib/supabase";
@@ -136,156 +137,164 @@ export default function ListPage() {
     fetchAndSetUserInfo();
   }, [posts, weeklyPosts, monthlyPosts]);
 
+  // Suspenseで全体をラップ
+
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <p className="text-gray-600">Loading...</p>
-      </div>
+      <Suspense fallback={<div className="max-w-7xl mx-auto px-4 py-6"><p className="text-gray-600">Loading...</p></div>}>
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </Suspense>
     );
   }
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <p className="text-gray-600">{error}</p>
-        <Link href="/list" className="text-blue-500 hover:underline">
-          一覧に戻る
-        </Link>
-      </div>
+      <Suspense fallback={<div className="max-w-7xl mx-auto px-4 py-6"><p className="text-gray-600">Loading...</p></div>}>
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <p className="text-gray-600">{error}</p>
+          <Link href="/list" className="text-blue-500 hover:underline">
+            一覧に戻る
+          </Link>
+        </div>
+      </Suspense>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* メインコンテンツ: サイドバー（週間TOP5・月間TOP5）と投稿一覧 */}
-      <div className="flex gap-8">
-        {/* サイドバー */}
-        <aside className="w-full md:w-1/4 space-y-8">
-          <div>
-            <div className="flex items-center mb-2 h-8">
-              <h2 className="text-s font-bold h-8 flex items-center mr-2">閲覧数ランキング</h2>
-              <button
-                className={`pl-6 h-8 text-xs font-bold rounded-l transition ${
-                  activeRankTab === "weekly"
-                    ? "text-black"
-                    : "text-gray-400 hover:bg-blue-100 hover:text-blue-600"
-                }`}
-                                style={{ background: "none", border: "none" }}
-                                onClick={() => setActiveRankTab("weekly")}
-                              >
-                                週間
-                              </button>
-                              <button
-                className={`px-3 h-8 text-xs font-bold rounded-r transition ${
-                  activeRankTab === "monthly"
-                    ? "text-black"
-                    : "text-gray-400 hover:bg-blue-100 hover:text-blue-600"
-                }`}
-                style={{ background: "none", border: "none" }}
-                onClick={() => setActiveRankTab("monthly")}
-              >
-                月間
-              </button>
+    <Suspense fallback={<div className="max-w-7xl mx-auto px-4 py-6"><p className="text-gray-600">Loading...</p></div>}>
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        {/* メインコンテンツ: サイドバー（週間TOP5・月間TOP5）と投稿一覧 */}
+        <div className="flex gap-8">
+          {/* サイドバー */}
+          <aside className="w-full md:w-1/4 space-y-8">
+            <div>
+              <div className="flex items-center mb-2 h-8">
+                <h2 className="text-s font-bold h-8 flex items-center mr-2">閲覧数ランキング</h2>
+                <button
+                  className={`pl-6 h-8 text-xs font-bold rounded-l transition ${
+                    activeRankTab === "weekly"
+                      ? "text-black"
+                      : "text-gray-400 hover:bg-blue-100 hover:text-blue-600"
+                  }`}
+                  style={{ background: "none", border: "none" }}
+                  onClick={() => setActiveRankTab("weekly")}
+                >
+                  週間
+                </button>
+                <button
+                  className={`px-3 h-8 text-xs font-bold rounded-r transition ${
+                    activeRankTab === "monthly"
+                      ? "text-black"
+                      : "text-gray-400 hover:bg-blue-100 hover:text-blue-600"
+                  }`}
+                  style={{ background: "none", border: "none" }}
+                  onClick={() => setActiveRankTab("monthly")}
+                >
+                  月間
+                </button>
+              </div>
+              <PostList
+                posts={activeRankTab === "weekly" ? weeklyPosts : monthlyPosts}
+                userInfoMap={userInfoMap}
+                showUser={true}
+                cardWidthClass="w-[180px]"
+                userInfoWidthClass="w-[100px]"
+              />
             </div>
+          </aside>
+
+          {/* 右側：投稿一覧 */}
+          <section className="w-full md:w-3/4">
+            {/* タブ部分（カード）＋並び替え＋フィルターボタンを横並び・同じ高さで */}
+            <div className="flex justify-between items-center mb-4">
+              <div className="bg-white rounded-xl shadow flex space-x-4 px-4 py-2 w-fit ml-0">
+                <TabLink label="すべて" value="all" filter={filter} />
+                <TabLink label="トレンド" value="trend" filter={filter} />
+                <TabLink label="お気に入り" value="bookmark" filter={filter} />
+              </div>
+              <div className="flex items-center gap-2">
+                <SortDropdown
+                  q={q}
+                  sortState={sortState}
+                  setSortState={setSortState}
+                  sortDropdownOpen={sortDropdownOpen}
+                  setSortDropdownOpen={setSortDropdownOpen}
+                  page={page}
+                  selectedTags={selectedTags}
+                  category={category}
+                  selectedUsers={selectedUsers}
+                  setPosts={setPosts}
+                  setTotalPages={setTotalPages}
+                />
+                <button
+                  type="button"
+                  className="flex items-center gap-1 px-4 py-1 bg-white rounded-lg border border-neutral-200 text-zinc-800 font-semibold hover:bg-gray-100"
+                  onClick={() => setFilterModalOpen(true)}
+                >
+                  <span className="text-base">⚙</span>
+                  <span>フィルター</span>
+                </button>
+              </div>
+            </div>
+
+            {/* フィルターモーダル */}
+            <FilterModal
+              open={filterModalOpen}
+              onClose={() => setFilterModalOpen(false)}
+              tags={facetsData.tags}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+              users={Object.entries(userInfoMap).map(([id, info]) => ({
+                id,
+                username: info.username,
+              }))}
+              selectedUsers={selectedUsers}
+              setSelectedUsers={setSelectedUsers}
+              onClear={() => {
+                setSelectedTags([]);
+                setSelectedUsers([]);
+              }}
+              onApply={() => {
+                setFilterModalOpen(false);
+                (async () => {
+                  // 検索条件をAPIに反映
+                  const tagParam = selectedTags.length > 0 ? selectedTags[0] : "";
+                  // 投稿者はAPI未対応なので後でfilter
+                  const params = new URLSearchParams({
+                    q,
+                    sort: sortState,
+                    page: String(page),
+                    tag: tagParam,
+                    category,
+                  });
+                  const res = await fetch(`/api/search?${params.toString()}`, { cache: "no-store" });
+                  if (res.ok) {
+                    const data = await res.json();
+                    let filtered = data.results;
+                    if (selectedUsers.length > 0) {
+                      filtered = filtered.filter((p: any) => selectedUsers.includes(p.user_id));
+                    }
+                    setPosts(filtered.map(mapRawPostToPost));
+                    // ページ数も更新
+                    const tp = data.count ? Math.ceil(data.count / 20) : 1;
+                    setTotalPages(tp);
+                  }
+                })();
+                return undefined;
+              }}
+            />
             <PostList
-              posts={activeRankTab === "weekly" ? weeklyPosts : monthlyPosts}
+              posts={posts}
               userInfoMap={userInfoMap}
               showUser={true}
-              cardWidthClass="w-[180px]"
-              userInfoWidthClass="w-[100px]"
+              cardWidthClass="w-full"
             />
-          </div>
-        </aside>
-
-        {/* 右側：投稿一覧 */}
-        <section className="w-full md:w-3/4">
-          {/* タブ部分（カード）＋並び替え＋フィルターボタンを横並び・同じ高さで */}
-          <div className="flex justify-between items-center mb-4">
-            <div className="bg-white rounded-xl shadow flex space-x-4 px-4 py-2 w-fit ml-0">
-              <TabLink label="すべて" value="all" filter={filter} />
-              <TabLink label="トレンド" value="trend" filter={filter} />
-              <TabLink label="お気に入り" value="bookmark" filter={filter} />
-            </div>
-            <div className="flex items-center gap-2">
-              <SortDropdown
-                q={q}
-                sortState={sortState}
-                setSortState={setSortState}
-                sortDropdownOpen={sortDropdownOpen}
-                setSortDropdownOpen={setSortDropdownOpen}
-                page={page}
-                selectedTags={selectedTags}
-                category={category}
-                selectedUsers={selectedUsers}
-                setPosts={setPosts}
-                setTotalPages={setTotalPages}
-              />
-              <button
-                type="button"
-                className="flex items-center gap-1 px-4 py-1 bg-white rounded-lg border border-neutral-200 text-zinc-800 font-semibold hover:bg-gray-100"
-                onClick={() => setFilterModalOpen(true)}
-              >
-                <span className="text-base">⚙</span>
-                <span>フィルター</span>
-              </button>
-            </div>
-          </div>
-
-          {/* フィルターモーダル */}
-          <FilterModal
-            open={filterModalOpen}
-            onClose={() => setFilterModalOpen(false)}
-            tags={facetsData.tags}
-            selectedTags={selectedTags}
-            setSelectedTags={setSelectedTags}
-            users={Object.entries(userInfoMap).map(([id, info]) => ({
-              id,
-              username: info.username,
-            }))}
-            selectedUsers={selectedUsers}
-            setSelectedUsers={setSelectedUsers}
-            onClear={() => {
-              setSelectedTags([]);
-              setSelectedUsers([]);
-            }}
-            onApply={() => {
-              setFilterModalOpen(false);
-              (async () => {
-                // 検索条件をAPIに反映
-                const tagParam = selectedTags.length > 0 ? selectedTags[0] : "";
-                // 投稿者はAPI未対応なので後でfilter
-                const params = new URLSearchParams({
-                  q,
-                  sort: sortState,
-                  page: String(page),
-                  tag: tagParam,
-                  category,
-                });
-                const res = await fetch(`/api/search?${params.toString()}`, { cache: "no-store" });
-                if (res.ok) {
-                  const data = await res.json();
-                  let filtered = data.results;
-                  if (selectedUsers.length > 0) {
-                    filtered = filtered.filter((p: any) => selectedUsers.includes(p.user_id));
-                  }
-                  setPosts(filtered.map(mapRawPostToPost));
-                  // ページ数も更新
-                  const tp = data.count ? Math.ceil(data.count / 20) : 1;
-                  setTotalPages(tp);
-                }
-              })();
-              return undefined;
-            }}
-          />
-          <PostList
-            posts={posts}
-            userInfoMap={userInfoMap}
-            showUser={true}
-            cardWidthClass="w-full"
-          />
-          {/* ページネーション（通常の「すべて」タブでのみ表示） */}
-          {filter === "all" && <Pagination currentPage={page} totalPages={totalPages} filter={filter} />}
-        </section>
+            {/* ページネーション（通常の「すべて」タブでのみ表示） */}
+            {filter === "all" && <Pagination currentPage={page} totalPages={totalPages} filter={filter} />}
+          </section>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
