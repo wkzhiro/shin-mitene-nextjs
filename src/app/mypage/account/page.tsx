@@ -41,6 +41,7 @@ export default function AccountSettings() {
         username: data.username || "",
         avatar_url: data.avatar_url || "",
         email: data.email || "",
+        description: data.description || "",
       });
     }
     fetchProfile();
@@ -126,6 +127,7 @@ export default function AccountSettings() {
         username: profile.username,
         avatar_url: avatarUrl,
         email: profile.email,
+        description: profile.description || "",
       }),
     });
     if (!res.ok) {
@@ -209,18 +211,18 @@ export default function AccountSettings() {
           </div>
 
           <div className="mt-8 ml-2.5 text-left">
-            <label htmlFor="email" className="block">
+            <label htmlFor="description" className="block">
               自己紹介
             </label>
-            <input
-              type="email"
-              id="email"
-              value={profile.email}
+            <textarea
+              id="description"
+              value={profile.description || ""}
               onChange={(e) =>
-                setProfile({ ...profile, email: e.target.value })
+                setProfile({ ...profile, description: e.target.value })
               }
               className="self-center px-6 py-2.5 mt-5 w-full leading-6 whitespace-nowrap bg-white rounded-lg border border-solid border-neutral-200 max-md:px-5"
               aria-label="自己紹介"
+              rows={4}
             />
           </div>
 

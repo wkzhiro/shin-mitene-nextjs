@@ -10,7 +10,7 @@ export default function SignInPage() {
     // すでに認証済みならホームにリダイレクト
     useEffect(() => {
     if (status === "authenticated") {
-        router.push("/");
+        router.push("/list");
     }
     }, [status, router]);
 

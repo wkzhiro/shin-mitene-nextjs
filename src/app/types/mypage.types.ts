@@ -15,6 +15,7 @@ export interface MyPagePost {
 
 export interface UserProfile {
   username: string;
-  avatar_url?: string | null;
-  email?: string;
+  avatar_url: string;
+  email: string;
+  description?: string;
 }

@@ -10,9 +10,10 @@ export async function GET(req: NextRequest) {
   }
   const { data, error } = await supabase
     .from("users")
-    .select("username, avatar_url, email")
+    .select("username, avatar_url, email, description")
     .eq("id", userId)
     .maybeSingle();
+  console.log("GET /api/account data:", data);
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -21,7 +22,8 @@ export async function GET(req: NextRequest) {
 
 // PUT: プロフィール更新
 export async function PUT(req: NextRequest) {
-  const { userId, username, avatar_url, email } = await req.json();
+  const { userId, username, avatar_url, email, description } = await req.json();
+  // console.log("PUT /api/account description:", description);
   if (!userId) {
     return NextResponse.json({ error: "userId is required" }, { status: 400 });
   }
@@ -31,6 +33,7 @@ export async function PUT(req: NextRequest) {
       username,
       avatar_url,
       email,
+      description,
     })
     .eq("id", userId);
   if (error) {

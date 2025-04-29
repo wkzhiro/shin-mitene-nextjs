@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
@@ -205,9 +205,15 @@ export default function MyPage() {
           </div>
           <Link href="/mypage/account" className="w-full">
             <button className="w-full bg-white border border-gray-400 rounded-lg py-2 text-gray-700 font-medium hover:bg-gray-100 transition">
-              プロフィールを編集する
+              プロフィール編集
             </button>
           </Link>
+          <button
+            className="w-full bg-red-500 text-white rounded-lg py-2 font-medium mt-4 hover:bg-red-600 transition"
+            onClick={() => signOut({ callbackUrl: "/signin" })}
+          >
+            サインアウト
+          </button>
         </aside>
 
         {/* メイン */}

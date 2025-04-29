@@ -66,8 +66,8 @@ export default function ClientHeader() {
       >
         {/* 左側: ロゴリンク */}
         <div className="flex items-center h-full">
-          <Link href="/" className="text-2xl font-bold flex items-center h-full">
-            Shin-Mitene
+          <Link href="/list" className="text-2xl font-bold flex items-center h-full">
+            Mitene-Camp
           </Link>
         </div>
 
